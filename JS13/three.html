@@ -1,0 +1,90 @@
+<script>
+/* 3.	Создать прямоугольную матрицу из N строк и M столбцов со случайными числами от -10 до 10. Найти локальные минимумы и локальные максимумы в матрице, вывести их в документ с номерами индексов (координатами).*/
+
+let matrixSize = prompt('Введите желаемую размерность матрицы: \n\n Где первое число будет означать колличество строк, а второе - колличество столбцов. Например: 7, 8');
+let currentMatrixSizeArray = getIntFromUser(matrixSize);
+let currentMatrix = getRandomMatrix(currentMatrixSizeArray[0], currentMatrixSizeArray[1]);
+showMatrix(currentMatrix);
+console.log(currentMatrix);
+
+let arrOfLocalLows = getMinNumberElement(currentMatrix);
+let arrOfLocalHighs = getMaxNumberElement(currentMatrix);
+
+for (let x of arrOfLocalLows){
+   document.write(` Локальный минимум в матрице: ${x[2]} его координаты: строка ${x[0]} столбец ${x[1]}. <br>`);
+}
+for (let x of arrOfLocalHighs){
+   document.write(`Локальный максимум в матрице: ${x[2]} его координаты: строка ${x[0]} столбец ${x[1]}. <br>`);
+}
+
+// Функция для обработки введенных данных
+
+function getIntFromUser(promptString){
+    let matrixRowsAndColsArray = promptString.split(', ');
+    matrixRowsAndColsArray = matrixRowsAndColsArray.map(Number);
+	return matrixRowsAndColsArray;
+}
+
+// Функция для получения рандомного числа
+
+function getRandomInt(min, max){
+    return value = Math.floor(Math.random() * (max*2 + 1)) + min;
+}
+
+// Функция для получения матрицы с рандомными числами
+
+function getRandomMatrix(rows, columns){
+    let matrix = [];
+	for(let row = 0; row < rows; row++){
+		    let currentRow = [];
+		    for(let col = 0; col < columns; col++){
+				    currentRow[col] = getRandomInt(-10,10);
+			}
+		    matrix.push(currentRow);
+		}
+	return matrix;
+}
+
+// Функция для вывода матрицы в документ
+function showMatrix(matrix){
+    document.write('<table width = "50%" border = "1">'); 
+          for(i = 0; i < matrix.length; i++){ 
+            document.writeln('<tr>'); 
+                for(j = 0; j < matrix[i].length; j++){ 
+                    document.write("<td>" + matrix[i][j] + "<\/td>") 
+                }  
+            document.writeln('<\/tr>'); 
+        } 
+    document.write('<\/table> <br>'); 
+	return matrix;
+}
+
+// Функция для определения локального минимума в матрице
+function getMinNumberElement(matrix) {
+  let min = [];
+  for (let i = 1; i < matrix.length - 1; i++) {
+    for (let j = 1; j < matrix[i].length - 1; j++) {
+      if (matrix[i][j] < matrix[i - 1][j] && matrix[i][j] < matrix[i + 1][j] && matrix[i][j] < matrix[i][j - 1] && matrix[i][j] < matrix[i][j + 1]) {
+        let miniArrOfIndexAndElem = [i + 1, j + 1, matrix[i][j]];
+        min.push(miniArrOfIndexAndElem);
+      }
+    }
+  }
+  return min;
+}
+
+// Функция для определения локального максимума в матрице
+
+function getMaxNumberElement(matrix) {
+  let max = [];
+  for (let i = 1; i < matrix.length - 1; i++) {
+    for (let j = 1; j < matrix[i].length - 1; j++) {
+      if (matrix[i][j] > matrix[i - 1][j] && matrix[i][j] > matrix[i + 1][j] && matrix[i][j] > matrix[i][j - 1] && matrix[i][j] > matrix[i][j + 1]) {
+        let miniArrOfIndexAndElem = [i + 1, j + 1, matrix[i][j]];
+        max.push(miniArrOfIndexAndElem);
+      }
+    }
+  }
+  return max;
+}
+</script>
